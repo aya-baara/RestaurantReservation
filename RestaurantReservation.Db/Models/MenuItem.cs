@@ -1,6 +1,6 @@
 ﻿namespace RestaurantReservation.Db.Models;
 
-class MenuItem
+public class MenuItem
 {
     public int MenuItemId { get; set; }
     public string Name { get; set; }
