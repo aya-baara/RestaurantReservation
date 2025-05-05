@@ -8,5 +8,7 @@ public class Order
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; }
     public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public Reservation Reservation { get; set; }
+    public int ReservationId { get; set; }
 }
 
