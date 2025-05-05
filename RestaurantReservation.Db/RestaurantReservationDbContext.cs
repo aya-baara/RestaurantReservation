@@ -2,8 +2,12 @@
 
 namespace RestaurantReservation.Db;
 
-class RestaurantReservationDbContext : DbContext
+public class RestaurantReservationDbContext : DbContext
 {
+    public RestaurantReservationDbContext(DbContextOptions<RestaurantReservationDbContext> options)
+            : base(options)
+    {
+    }
 
 }
 
