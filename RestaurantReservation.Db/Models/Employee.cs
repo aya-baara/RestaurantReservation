@@ -6,7 +6,7 @@ public class Employee
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Position { get; set; }
-    public int ResturantId { get; set; }
+    public int RestaurantId { get; set; }
     public Restaurant Restaurant { get; set; }
     public List<Order> Orders { get; set; } = new List<Order>();
 }
