@@ -12,8 +12,8 @@ using RestaurantReservation.Db;
 namespace RestaurantReservation.Db.Migrations
 {
     [DbContext(typeof(RestaurantReservationDbContext))]
-    [Migration("20250505114105_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250506084513_InitialSetupFixed")]
+    partial class InitialSetupFixed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,14 +62,10 @@ namespace RestaurantReservation.Db.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RestaurantId")
+                    b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<int>("ResturantId")
+                    b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
@@ -174,9 +170,6 @@ namespace RestaurantReservation.Db.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("PartySize")
                         .HasColumnType("int");
 
@@ -192,8 +185,6 @@ namespace RestaurantReservation.Db.Migrations
                     b.HasKey("ReservationId");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("CustomerId1");
 
                     b.HasIndex("RestaurantId");
 
@@ -227,7 +218,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasKey("RestaurantId");
 
-                    b.ToTable("Restaurant");
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Table", b =>
@@ -242,9 +233,6 @@ namespace RestaurantReservation.Db.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResturantId")
                         .HasColumnType("int");
 
                     b.HasKey("TableId");
@@ -317,14 +305,10 @@ namespace RestaurantReservation.Db.Migrations
             modelBuilder.Entity("RestaurantReservation.Db.Models.Reservation", b =>
                 {
                     b.HasOne("RestaurantReservation.Db.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("RestaurantReservation.Db.Models.Customer", null)
-                        .WithMany("Reservations")
-                        .HasForeignKey("CustomerId1");
 
                     b.HasOne("RestaurantReservation.Db.Models.Restaurant", "Restaurant")
                         .WithMany("Reservations")
