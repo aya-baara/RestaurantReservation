@@ -20,11 +20,11 @@ class Data
     {
         return new List<Customer>
             {
-                new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe" },
-                new Customer { CustomerId = 2, FirstName = "Jane", LastName = "Doe" },
-                new Customer { CustomerId = 3, FirstName = "Alice", LastName = "Smith" },
-                new Customer { CustomerId = 4, FirstName = "Bob", LastName = "Johnson" },
-                new Customer { CustomerId = 5, FirstName = "Charlie", LastName = "Brown" }
+                new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe" ,Email="John@gmail",PhoneNumber=6262325 },
+                new Customer { CustomerId = 2, FirstName = "Jane", LastName = "Doe",Email="Jane@gmail",PhoneNumber=6262325  },
+                new Customer { CustomerId = 3, FirstName = "Alice", LastName = "Smith" ,Email="Alice@gmail",PhoneNumber=6262325 },
+                new Customer { CustomerId = 4, FirstName = "Bob", LastName = "Johnson" ,Email="Bob@gmail",PhoneNumber=6262325 },
+                new Customer { CustomerId = 5, FirstName = "Charlie", LastName = "Brown",Email="Charlie@gmail",PhoneNumber=6262325  }
             };
     }
 
