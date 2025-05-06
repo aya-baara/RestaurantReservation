@@ -63,7 +63,7 @@ public class RestaurantReservationDbContext : DbContext
             .HasForeignKey(o => o.OrderId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        //modelBuilder.SeedDatabase();
+        modelBuilder.SeedDatabase();
 
     }
 
