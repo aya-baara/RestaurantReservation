@@ -1,6 +1,8 @@
-﻿namespace RestaurantReservation.Db.Models;
+﻿using RestaurantReservation.Db.Interface;
 
-public class Restaurant
+namespace RestaurantReservation.Db.Models;
+
+public class Restaurant : IModel
 {
     public int RestaurantId { get; set; }
     public string Name { get; set; }

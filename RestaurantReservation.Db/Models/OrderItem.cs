@@ -1,6 +1,8 @@
-﻿namespace RestaurantReservation.Db.Models;
+﻿using RestaurantReservation.Db.Interface;
 
-public class OrderItem
+namespace RestaurantReservation.Db.Models;
+
+public class OrderItem : IModel
 {
     public int OrderItemId { get; set; }
     public int Quantity { get; set; }

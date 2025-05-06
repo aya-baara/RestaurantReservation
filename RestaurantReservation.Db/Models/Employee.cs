@@ -1,8 +1,9 @@
-﻿using RestaurantReservation.Db.Models.Enums;
+﻿using RestaurantReservation.Db.Interface;
+using RestaurantReservation.Db.Models.Enums;
 
 namespace RestaurantReservation.Db.Models;
 
-public class Employee
+public class Employee : IModel
 {
     public int EmployeeId { get; set; }
     public string FirstName { get; set; }
