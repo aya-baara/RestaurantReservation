@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.Db.Models;
+using RestaurantReservation.Db.Seeds;
 
 namespace RestaurantReservation.Db;
 
@@ -16,7 +17,7 @@ public class RestaurantReservationDbContext : DbContext
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Table> Tables { get; set; }
-
+    public DbSet<Restaurant> Restaurants { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -34,7 +35,7 @@ public class RestaurantReservationDbContext : DbContext
 
         modelBuilder.Entity<Reservation>()
             .HasOne(r => r.Customer)
-            .WithMany()
+            .WithMany(c => c.Reservations)
             .HasForeignKey(r => r.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -61,6 +62,9 @@ public class RestaurantReservationDbContext : DbContext
             .WithMany(o => o.OrderItems)
             .HasForeignKey(o => o.OrderId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        //modelBuilder.SeedDatabase();
+
     }
 
 }
