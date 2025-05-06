@@ -55,6 +55,19 @@ public class MethodsTest
         }
     }
 
+    public async static Task TestCalculateAverageOrderAmount(int employeeId, OrderRepository repo)
+    {
+        double averageAmount = await repo.CalculateAverageOrderAmount(employeeId);
+
+        if (averageAmount == 0)
+        {
+            Console.WriteLine($"No orders found for employee with ID {employeeId}.");
+        }
+        else
+        {
+            Console.WriteLine($"The average order amount for employee ID {employeeId} is: {averageAmount:C}");
+        }
+    }
 
 }
 
