@@ -11,7 +11,7 @@ public class ReservationService
 
     public async Task ViewReservationsDetails()
     {
-        var details = await _repo.ViewReservationDetails();
+        var details = await _repo.ViewReservationsDetails();
         foreach (var d in details)
         {
             Console.WriteLine($"Reservation #{d.ReservationId} | Customer: {d.FirstName} {d.LastName} | Restaurant: {d.Name}");

@@ -18,7 +18,7 @@ public class ReservationRepository : Repository<Reservation>, IRepository<Reserv
             _context.Reservations.Where(r => r.CustomerId == csustomerId).ToListAsync();
 
     }
-    public async Task<List<ReservationDetail>> ViewReservationDetails()
+    public async Task<List<ReservationDetail>> ViewReservationsDetails()
     {
         return await _context.ReservationDetails.ToListAsync();
 
