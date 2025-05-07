@@ -24,15 +24,6 @@ public class RestaurantReservationDbContext : DbContext
     public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
     public DbSet<CustomerInfoDto> CustomerInfoResults { get; set; }
 
-
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Database=RestaurantReservationCore;Trusted_Connection=True;TrustServerCertificate=True;");
-        }
-    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Reservation>()
