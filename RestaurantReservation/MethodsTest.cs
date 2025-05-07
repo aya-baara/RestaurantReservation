@@ -1,4 +1,5 @@
-﻿using RestaurantReservation.Db.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation;
@@ -69,5 +70,14 @@ public class MethodsTest
         }
     }
 
-}
+    public async static Task TestViewReservationDetails(ReservationRepository repo)
+    {
+        var details = await repo.ViewReservationDetails();
 
+        foreach (var d in details)
+        {
+            Console.WriteLine($"Reservation #{d.ReservationId} | Customer: {d.FirstName} {d.LastName} | Restaurant: {d.Name}");
+        }
+    }
+
+}
