@@ -7,11 +7,11 @@ using RestaurantReservation.Db;
 using System;
 using System.Threading.Tasks;
 
-public class RepositoryTests
+public class RepositoriesCRUDTests
 {
     private readonly RestaurantReservationDbContext _context;
 
-    public RepositoryTests(RestaurantReservationDbContext restaurantReservationDbContext)
+    public RepositoriesCRUDTests(RestaurantReservationDbContext restaurantReservationDbContext)
     {
         _context = restaurantReservationDbContext;
     }
