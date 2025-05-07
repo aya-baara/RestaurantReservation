@@ -89,4 +89,9 @@ public class MethodsTest
             Console.WriteLine($"Employee: {e.FirstName} {e.LastName} - {e.Position} | Restaurant: {e.Name}, {e.Address}");
         }
     }
+    public async static Task TestTotalRevenue(int restaurantId , RestaurantRepository repo )
+    {
+        var revenue = await repo.GetTotalRevenueByRestaurant(restaurantId);
+        Console.WriteLine($"Total Revenue for Restaurant {restaurantId}: {revenue} $");
+    }
 }
