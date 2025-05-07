@@ -572,6 +572,46 @@ namespace RestaurantReservation.Db.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RestaurantReservation.Db.Models.Views.ReservationDetail", b =>
+                {
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerPhoneNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningHours")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantPhoneNumber")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("ReservationDetails", (string)null);
+                });
+
             modelBuilder.Entity("RestaurantReservation.Db.Models.Employee", b =>
                 {
                     b.HasOne("RestaurantReservation.Db.Models.Restaurant", "Restaurant")

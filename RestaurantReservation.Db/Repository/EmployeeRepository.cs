@@ -2,6 +2,7 @@
 using RestaurantReservation.Db.Interface;
 using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Models.Enums;
+using RestaurantReservation.Db.Models.Views;
 
 namespace RestaurantReservation.Db.Repository;
 
@@ -17,6 +18,11 @@ public class EmployeeRepository : Repository<Employee>, IRepository<Employee>
     {
         return await
             _context.Employees.Where(e => e.Position.Equals(EmployeePosition.Manager)).ToListAsync();
+    }
+    public async Task<List<EmployeeDetail>> ListEmployeesDetails()
+    {
+        return await
+           _context.EmployeeDetails.ToListAsync();
     }
 }
 

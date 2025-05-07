@@ -80,4 +80,13 @@ public class MethodsTest
         }
     }
 
+    public async static Task TestEmplyeesDetails(EmployeeRepository repo)
+    {
+        var employees = await repo.ListEmployeesDetails();
+
+        foreach (var e in employees)
+        {
+            Console.WriteLine($"Employee: {e.FirstName} {e.LastName} - {e.Position} | Restaurant: {e.Name}, {e.Address}");
+        }
+    }
 }

@@ -20,6 +20,8 @@ public class RestaurantReservationDbContext : DbContext
     public DbSet<Table> Tables { get; set; }
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<ReservationDetail> ReservationDetails { get; set; }
+    public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -71,6 +73,10 @@ public class RestaurantReservationDbContext : DbContext
         modelBuilder.Entity<ReservationDetail>()
       .HasNoKey()
       .ToView("ReservationDetails");
+
+        modelBuilder.Entity<EmployeeDetail>()
+     .HasNoKey()
+     .ToView("EmployeeDetails");
 
     }
 
