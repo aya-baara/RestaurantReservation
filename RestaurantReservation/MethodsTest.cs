@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RestaurantReservation.Db.Models;
+﻿using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation;
@@ -93,5 +92,26 @@ public class MethodsTest
     {
         var revenue = await repo.GetTotalRevenueByRestaurant(restaurantId);
         Console.WriteLine($"Total Revenue for Restaurant {restaurantId}: {revenue} $");
+    }
+
+
+    public async static Task GetCustomersWithPartySize(int minPartySize, CustomerRepository repo)
+    {
+        var customers = await repo.GetCustomersByPartySize(minPartySize);
+
+        Console.WriteLine("\nCustomers with party size greater than " + minPartySize + ":\n");
+
+        foreach (var customer in customers)
+        {
+            Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+            Console.WriteLine($"Email: {customer.Email}");
+            Console.WriteLine($"Phone: {customer.PhoneNumber}");
+            Console.WriteLine(new string('-', 30));
+        }
+
+        if (!customers.Any())
+        {
+            Console.WriteLine("No customers found.");
+        }
     }
 }
