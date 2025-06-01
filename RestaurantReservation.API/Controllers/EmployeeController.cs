@@ -148,7 +148,15 @@ public class EmployeeController : Controller
 
     }
 
+    /// <summary>
+    /// Retrieves a list of employees who are managers.
+    /// </summary>
+    /// <returns>A list of manager employees.</returns>
+    /// <response code="200">Returns the list of managers</response>
+    /// <response code="500">If there was a server error</response>
     [HttpGet("managers")]
+    [ProducesResponseType(typeof(IEnumerable<EmployeeDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> GetManagers()
     {
         return Ok(await _employeeRepository.ListManagers());
