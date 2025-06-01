@@ -147,5 +147,12 @@ public class EmployeeController : Controller
         }
 
     }
+
+    [HttpGet("managers")]
+    public async Task<ActionResult> GetManagers()
+    {
+        return Ok(await _employeeRepository.ListManagers());
+    }
+
 }
 
