@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
 using RestaurantReservation.Db.Models;
@@ -87,5 +88,65 @@ public class TableController : Controller
         }
 
     }
+
+    /// <summary>
+    /// Partially updates an existing table by ID using a JSON patch document.
+    /// </summary>
+    /// <param name="id">The ID of the table to update.</param>
+    /// <param name="patchDocument">The JSON patch document containing updates.</param>
+    /// <returns>No content if successful; otherwise, a 404 Not Found response.</returns>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> PartiallyUpdateT(int id, [FromBody] JsonPatchDocument<TableUpdateDto> patchDocument)
+    {
+        if (patchDocument == null)
+            return BadRequest();
+        try
+        {
+            var existingTable = await _tableRepository.GetById(id);
+
+            var tableToPatch = _mapper.Map<TableUpdateDto>(existingTable);
+
+            patchDocument.ApplyTo(tableToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _mapper.Map(tableToPatch, existingTable);
+            await _tableRepository.Update(existingTable);
+
+            return NoContent();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    /// <summary>
+    /// Delete table By Id
+    /// </summary>
+    /// <param name="id">The ID of the table to delete.</param>
+    /// <returns>No content if successful; otherwise, a 404 Not Found response.</returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteTable(int id)
+    {
+        try
+        {
+            await _tableRepository.DeleteById(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return NotFound();
+        }
+
+    }
 }
+
 
