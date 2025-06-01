@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
+using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
-
+[ApiController]
+[Route("api/customers")]
 public class CustomerController : Controller
 {
     private readonly CustomerRepository _customerRepository;
@@ -37,6 +39,25 @@ public class CustomerController : Controller
         {
             return NotFound();
         }
+
+    }
+    /// <summary>
+    /// Creates a new customer.
+    /// </summary>
+    /// <param name="customerCreation">The customer data to create</param>
+    /// <returns>The newly created customer.</returns>
+    /// <response code="201">Returns the newly created customer</response>
+    /// <response code="400">If the input is invalid</response>
+    [HttpPost]
+    [ProducesResponseType(typeof(CustomerDto), 201)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<CustomerCreationDto>> CreateCustomer(CustomerCreationDto customerCreation)
+    {
+        var customer = _mapper.Map<Customer>(customerCreation);
+        var createdCustomer = await _customerRepository.Create(customer);
+        var createdCustomerReturn = _mapper.Map<CustomerDto>(createdCustomer);
+
+        return CreatedAtAction(nameof(GetCustomer), new { id = createdCustomerReturn.CustomerId }, createdCustomerReturn);
 
     }
 
