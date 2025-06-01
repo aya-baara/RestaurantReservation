@@ -10,13 +10,16 @@ public class ReservationController : Controller
 {
     private readonly ReservationRepository _reservationRepository;
     private readonly CustomerRepository _customerRepository;
+    private readonly OrderItemRepository _orderItemRepository;
+    
     private readonly IMapper _mapper;
 
-    public ReservationController(ReservationRepository reservationRepository, IMapper mapper, CustomerRepository customerRepository)
+    public ReservationController(ReservationRepository reservationRepository, IMapper mapper, CustomerRepository customerRepository, OrderItemRepository orderItemRepository)
     {
         _reservationRepository = reservationRepository;
         _mapper = mapper;
         _customerRepository = customerRepository;
+        _orderItemRepository = orderItemRepository;
     }
 
     /// <summary>
@@ -45,6 +48,34 @@ public class ReservationController : Controller
         }
 
     }
+
+    /// <summary>
+    /// Retrieves all orders and their associated menu items for a specific reservation.
+    /// </summary>
+    /// <param name="id">The ID of the reservation.</param>
+    /// <returns>A list of orders, each with its corresponding menu items.</returns>
+    /// <response code="200">Returns the list of orders with their menu items.</response>
+    /// <response code="404">If no orders are found for the specified reservation ID.</response>
+
+    [HttpGet("{id}/orders")]
+    [ProducesResponseType(typeof(IEnumerable<OrderWithMenuItemsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<OrderWithMenuItemsDto>>> GetOrdersReservation(int id)
+    {
+        var ordersDict = await _orderItemRepository.ListOrdersAndMenuItems(id);
+
+        if (ordersDict == null || !ordersDict.Any())
+            return NotFound(new { Message = "No orders found for the specified reservation." });
+
+        var result = ordersDict.Select(kvp => new OrderWithMenuItemsDto
+        {
+            OrderId = kvp.Key,
+            MenuItems = _mapper.Map<List<MenuItemDto>>(kvp.Value)
+        }).ToList();
+
+        return Ok(result);
+    }
+
 
 
 
