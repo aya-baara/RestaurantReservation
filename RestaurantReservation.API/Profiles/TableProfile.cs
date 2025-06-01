@@ -10,6 +10,8 @@ public class TableProfile : Profile
     {
         CreateMap<Table, TableDto>();
         CreateMap<TableCreationDto, Table>();
+        CreateMap<Table, TableUpdateDto>().ReverseMap();
+
     }
 }
 
