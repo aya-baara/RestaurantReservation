@@ -60,7 +60,7 @@ public class ReservationController : Controller
     [HttpGet("{id}/orders")]
     [ProducesResponseType(typeof(IEnumerable<OrderWithMenuItemsDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<OrderWithMenuItemsDto>>> GetOrdersReservation(int id)
+    public async Task<ActionResult> GetOrdersReservation(int id)
     {
         var ordersDict = await _orderItemRepository.ListOrdersAndMenuItems(id);
 
@@ -74,6 +74,25 @@ public class ReservationController : Controller
         }).ToList();
 
         return Ok(result);
+    }
+
+    /// <summary>
+    /// Retrieves all menu items ordered for a specific reservation.
+    /// </summary>
+    /// <param name="id">The ID of the reservation.</param>
+    /// <returns>A list of menu items associated with the reservation's orders.</returns>
+    /// <response code="200">Returns the list of ordered menu items.</response>
+    /// <response code="404">If no menu items are found for the specified reservation ID.</response>
+
+    [HttpGet("{id}/menu-items")]
+    public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetOrderedMenuItemsForReservation(int id)
+    {
+        var menuItems = await _orderItemRepository.ListOrderedMenuItems(id);
+
+        if (menuItems == null || !menuItems.Any()) 
+                return NotFound(new { Message = "No menu items found for the specified order." });
+
+        return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(menuItems));
     }
 
 
