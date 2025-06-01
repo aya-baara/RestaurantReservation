@@ -9,6 +9,7 @@ public class EmployeeProfile : Profile
     public EmployeeProfile()
     {
         CreateMap<Employee, EmployeeDto>();
+        CreateMap<EmployeeCreationDto, Employee>();
     }
 }
 
