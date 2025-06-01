@@ -124,5 +124,28 @@ public class EmployeeController : Controller
             return NotFound();
         }
     }
+
+    /// <summary>
+    /// Delete Employee By Id
+    /// </summary>
+    /// <param name="id">The ID of the Employee to delete.</param>
+    /// <returns>No content if successful; otherwise, a 404 Not Found response.</returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteEmployee(int id)
+    {
+        try
+        {
+            await _employeeRepository.DeleteById(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return NotFound();
+        }
+
+    }
 }
 
