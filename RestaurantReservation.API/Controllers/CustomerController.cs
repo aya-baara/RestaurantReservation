@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
 using RestaurantReservation.Db.Models;
@@ -90,7 +91,64 @@ public class CustomerController : Controller
 
     }
 
+    /// <summary>
+    /// Partially updates an existing customer by ID using a JSON patch document.
+    /// </summary>
+    /// <param name="id">The ID of the customer to update.</param>
+    /// <param name="patchDocument">The JSON patch document containing updates.</param>
+    /// <returns>No content if successful; otherwise, a 404 Not Found response.</returns>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> PartiallyUpdateCustomer(int id, [FromBody] JsonPatchDocument<CustomerUpdateDto> patchDocument)
+    {
+        if (patchDocument == null)
+            return BadRequest();
+        try
+        {
+            var existingCustomer = await _customerRepository.GetById(id);
 
+            var customerToPatch = _mapper.Map<CustomerUpdateDto>(existingCustomer);
+
+            patchDocument.ApplyTo(customerToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _mapper.Map(customerToPatch, existingCustomer);
+            await _customerRepository.Update(existingCustomer);
+
+            return NoContent();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    /// <summary>
+    /// Delete Customer By Id
+    /// </summary>
+    /// <param name="id">The ID of the customer to delete.</param>
+    /// <returns>No content if successful; otherwise, a 404 Not Found response.</returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteCustomer(int id)
+    {
+        try
+        {
+           await _customerRepository.DeleteById(id);
+            return NoContent();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return NotFound();
+        }
+
+    }
 
 }
 
