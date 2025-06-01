@@ -10,6 +10,8 @@ public class EmployeeProfile : Profile
     {
         CreateMap<Employee, EmployeeDto>();
         CreateMap<EmployeeCreationDto, Employee>();
+        CreateMap<Employee, EmployeeUpdateDto>().ReverseMap();
+
     }
 }
 
