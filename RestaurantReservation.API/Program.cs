@@ -11,6 +11,7 @@ builder.Services.AddDbContext<RestaurantReservationDbContext>(options =>
 
 builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<TableRepository>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
