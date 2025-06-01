@@ -59,5 +59,33 @@ public class TableController : Controller
 
         return CreatedAtAction(nameof(GetTable), new { id = createdTable.TableId }, createdTable);
     }
+
+    /// <summary>
+    /// Updates an existing table's information.
+    /// </summary>
+    /// <param name="id">The ID of the table to update.</param>
+    /// <param name="customerUpdateDto">The updated table information.</param>
+    /// <returns>No content if the update is successful; NotFound if the table does not exist.</returns>
+    /// <response code="204">table updated successfully</response>
+    /// <response code="404">table not found</response>
+    [HttpPut("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult> UpdateEmployee(int id, TableUpdateDto tableUpdateDto)
+    {
+        try
+        {
+            var table = await _tableRepository.GetById(id);
+            _mapper.Map(tableUpdateDto, table);
+            await _tableRepository.Update(table);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return NotFound();
+        }
+
+    }
 }
 
