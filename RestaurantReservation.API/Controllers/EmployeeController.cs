@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
+using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
@@ -28,7 +29,7 @@ public class EmployeeController : Controller
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CustomerDto), 200)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult>GetEmployeeById(int id)
+    public async Task<ActionResult>GetEmployee(int id)
     {
         try
         {
@@ -39,6 +40,24 @@ public class EmployeeController : Controller
         {
             return NotFound();
         }
+    }
+
+    /// <summary>
+    /// Creates a new employee.
+    /// </summary>
+    /// <param name="EmployeeCreationDto">The employee data to create</param>
+    /// <returns>The newly created employee.</returns>
+    /// <response code="201">Returns the newly created employee</response>
+    /// <response code="400">If the input is invalid</response>
+    [HttpPost]
+    [ProducesResponseType(typeof(CustomerDto), 201)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult> CreateEmployee(EmployeeCreationDto creationDto)
+    {
+        var employee = await _employeeRepository.Create(_mapper.Map<Employee>(creationDto));
+        var createdEmployee = _mapper.Map<EmployeeDto>(employee);
+
+        return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId }, createdEmployee);
     }
 }
 
