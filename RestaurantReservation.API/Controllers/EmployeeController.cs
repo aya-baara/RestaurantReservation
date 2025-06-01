@@ -12,12 +12,14 @@ namespace RestaurantReservation.API.Controllers;
 public class EmployeeController : Controller
 {
     private readonly EmployeeRepository _employeeRepository;
+    private readonly OrderRepository _orderRepository;
     private readonly IMapper _mapper;
 
-    public EmployeeController(EmployeeRepository employeeRepository, IMapper mapper)
+    public EmployeeController(EmployeeRepository employeeRepository, IMapper mapper, OrderRepository orderRepository)
     {
         _employeeRepository = employeeRepository;
         _mapper = mapper;
+        _orderRepository = orderRepository;
     }
 
     /// <summary>
@@ -160,6 +162,30 @@ public class EmployeeController : Controller
     public async Task<ActionResult> GetManagers()
     {
         return Ok(await _employeeRepository.ListManagers());
+    }
+
+    /// <summary>
+    /// Calculates the average order amount handled by a specific employee.Add commentMore actions
+    /// </summary>
+    /// <param name="employeeId">The ID of the employee for whom to calculate the average order amount.</param>
+    /// <returns>A 200 OK response with the average order amount; or a 404 Not Found response if no orders exist for the specified employee.</returns>
+    [HttpGet("{employeeId}/average-order-amount")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAverageOrderAmount(int employeeId)
+    {
+        try
+        {
+            var employee = await _employeeRepository.GetById(employeeId);
+            var averageOrderAmount = await _orderRepository.CalculateAverageOrderAmount(employeeId);
+
+            return Ok(new { averageOrderAmount });
+        }
+        catch
+        {
+            return NotFound();
+        }
+       
     }
 
 }

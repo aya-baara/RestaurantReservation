@@ -14,7 +14,7 @@ builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<TableRepository>();
 builder.Services.AddScoped<ReservationRepository>();
 builder.Services.AddScoped<OrderItemRepository>();
-
+builder.Services.AddScoped<OrderRepository>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

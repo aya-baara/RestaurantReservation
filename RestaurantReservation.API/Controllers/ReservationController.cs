@@ -85,7 +85,7 @@ public class ReservationController : Controller
     /// <response code="404">If no menu items are found for the specified reservation ID.</response>
 
     [HttpGet("{id}/menu-items")]
-    public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetOrderedMenuItemsForReservation(int id)
+    public async Task<ActionResult> GetOrderedMenuItemsForReservation(int id)
     {
         var menuItems = await _orderItemRepository.ListOrderedMenuItems(id);
 
