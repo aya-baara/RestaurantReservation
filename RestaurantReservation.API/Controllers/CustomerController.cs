@@ -41,6 +41,7 @@ public class CustomerController : Controller
         }
 
     }
+
     /// <summary>
     /// Creates a new customer.
     /// </summary>
@@ -60,6 +61,36 @@ public class CustomerController : Controller
         return CreatedAtAction(nameof(GetCustomer), new { id = createdCustomerReturn.CustomerId }, createdCustomerReturn);
 
     }
+
+    /// <summary>
+    /// Updates an existing customer's information.
+    /// </summary>
+    /// <param name="id">The ID of the customer to update.</param>
+    /// <param name="customerUpdateDto">The updated customer information.</param>
+    /// <returns>No content if the update is successful; NotFound if the customer does not exist.</returns>
+    /// <response code="204">Customer updated successfully</response>
+    /// <response code="404">Customer not found</response>
+    [HttpPut("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult> UpdateCustomer(int id , CustomerUpdateDto customerUpdateDto)
+    {
+        try
+        {
+            var customer = await _customerRepository.GetById(id);
+            _mapper.Map(customerUpdateDto, customer);
+            await _customerRepository.Update(customer);
+            return NoContent();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return NotFound();
+        }
+
+    }
+
+
 
 }
 
