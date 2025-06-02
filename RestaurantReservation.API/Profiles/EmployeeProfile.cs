@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RestaurantReservation.API.Models;
+using RestaurantReservation.API.Models.Employees;
 using RestaurantReservation.Db.Models;
 
 namespace RestaurantReservation.API.Profiles;

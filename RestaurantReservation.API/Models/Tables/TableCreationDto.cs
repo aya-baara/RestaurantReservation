@@ -1,6 +1,6 @@
-﻿namespace RestaurantReservation.API.Models;
+﻿namespace RestaurantReservation.API.Models.Tables;
 
-public class TableUpdateDto
+public class TableCreationDto
 {
     public int Capacity { get; set; }
     public int RestaurantId { get; set; }

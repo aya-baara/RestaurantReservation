@@ -1,8 +1,8 @@
 ﻿using RestaurantReservation.Db.Models.Enums;
 
-namespace RestaurantReservation.API.Models;
+namespace RestaurantReservation.API.Models.Employees;
 
-public class EmployeeUpdateDto
+public class EmployeeCreationDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.API.Models;
+using RestaurantReservation.API.Models.Tokens;
 using RestaurantReservation.API.Services;
 
 namespace RestaurantReservation.API.Controllers;

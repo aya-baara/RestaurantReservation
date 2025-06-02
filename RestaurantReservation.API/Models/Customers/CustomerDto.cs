@@ -1,7 +1,8 @@
-﻿namespace RestaurantReservation.API.Models;
+﻿namespace RestaurantReservation.API.Models.Customers;
 
-public class CustomerCreationDto
+public class CustomerDto
 {
+    public int CustomerId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int PhoneNumber { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace RestaurantReservation.API.Models;
+﻿namespace RestaurantReservation.API.Models.Customers;
 
 public class CustomerUpdateDto
 {

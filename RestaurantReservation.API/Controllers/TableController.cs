@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.API.Models;
+using RestaurantReservation.API.Models.Customers;
+using RestaurantReservation.API.Models.Tables;
 using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
