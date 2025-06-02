@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
+[Authorize]
 [ApiController]
 [Route("api/reservations")]
 public class ReservationController : Controller

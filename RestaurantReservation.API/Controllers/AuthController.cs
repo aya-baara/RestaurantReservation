@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantReservation.API.Models;
+using RestaurantReservation.API.Services;
+
+namespace RestaurantReservation.API.Controllers;
+
+public class AuthController : Controller
+{
+    private readonly JwtTokenGenerator _tokenGenerator;
+
+    public AuthController(JwtTokenGenerator tokenGenerator)
+    {
+        _tokenGenerator = tokenGenerator;
+    }
+    [HttpPost("login")]
+    public IActionResult Login(User requestUser)
+    {
+        var token = _tokenGenerator.GenerateToken(requestUser);
+
+        if (token == null)
+            return Unauthorized("Invalid username or password");
+
+        return Ok(new { token });
+    }
+}
+
