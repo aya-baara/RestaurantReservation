@@ -11,7 +11,7 @@ namespace RestaurantReservation.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/employees")]
-public class EmployeeController : Controller
+public class EmployeeController : ControllerBase
 {
     private readonly EmployeeRepository _employeeRepository;
     private readonly OrderRepository _orderRepository;

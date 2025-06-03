@@ -4,7 +4,7 @@ using RestaurantReservation.API.Services;
 
 namespace RestaurantReservation.API.Controllers;
 
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private readonly JwtTokenGenerator _tokenGenerator;
 

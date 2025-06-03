@@ -10,7 +10,7 @@ namespace RestaurantReservation.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/customers")]
-public class CustomerController : Controller
+public class CustomerController : ControllerBase
 {
     private readonly CustomerRepository _customerRepository;
     private readonly IMapper _mapper;

@@ -11,7 +11,7 @@ namespace RestaurantReservation.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/tables")]
-public class TableController : Controller
+public class TableController : ControllerBase
 {
     private readonly TableRepository _tableRepository;
     private readonly IMapper _mapper;
