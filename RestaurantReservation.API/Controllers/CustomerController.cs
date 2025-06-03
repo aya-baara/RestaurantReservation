@@ -103,7 +103,7 @@ public class CustomerController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PartiallyUpdateCustomer(int id, [FromBody] JsonPatchDocument<CustomerUpdateDto> patchDocument)
+    public async Task<IActionResult> PatchCustomer(int id, [FromBody] JsonPatchDocument<CustomerUpdateDto> patchDocument)
     {
         if (patchDocument == null)
             return BadRequest();

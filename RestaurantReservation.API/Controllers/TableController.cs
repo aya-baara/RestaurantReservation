@@ -100,7 +100,7 @@ public class TableController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PartiallyUpdateTable(int id, [FromBody] JsonPatchDocument<TableUpdateDto> patchDocument)
+    public async Task<IActionResult> PatchTable(int id, [FromBody] JsonPatchDocument<TableUpdateDto> patchDocument)
     {
         if (patchDocument == null)
             return BadRequest();

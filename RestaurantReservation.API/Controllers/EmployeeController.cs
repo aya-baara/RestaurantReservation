@@ -103,7 +103,7 @@ public class EmployeeController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PartiallyUpdateEmployee(int id, [FromBody] JsonPatchDocument<EmployeeUpdateDto> patchDocument)
+    public async Task<IActionResult> PatchEmployee(int id, [FromBody] JsonPatchDocument<EmployeeUpdateDto> patchDocument)
     {
         if (patchDocument == null)
             return BadRequest();
