@@ -26,11 +26,11 @@ public class TableController : ControllerBase
     /// </summary>
     /// <param name="id">The ID of the table to retrieve.</param>
     /// <returns>A single tableDto object.</returns>
-    /// <response code="200">Returns the requested customer</response>
-    /// <response code="404">If the customer is not found</response>
+    /// <response code="200">Returns the requested table</response>
+    /// <response code="404">If the table is not found</response>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(TableDto), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(TableDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult>GetTable(int id)
     {
         try {
@@ -52,8 +52,8 @@ public class TableController : ControllerBase
     /// <response code="201">Returns the newly created table</response>
     /// <response code="400">If the input is invalid</response>
     [HttpPost]
-    [ProducesResponseType(typeof(TableDto), 201)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(typeof(TableDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult>CreateTable(TableCreationDto tableCreationDto)
     {
         var table = await _tableRepository.Create(_mapper.Map<Table>(tableCreationDto));
@@ -71,8 +71,8 @@ public class TableController : ControllerBase
     /// <response code="204">table updated successfully</response>
     /// <response code="404">table not found</response>
     [HttpPut("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateTable(int id, TableUpdateDto tableUpdateDto)
     {
         try

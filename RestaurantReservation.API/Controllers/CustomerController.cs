@@ -29,8 +29,8 @@ public class CustomerController : ControllerBase
     /// <response code="200">Returns the requested customer</response>
     /// <response code="404">If the customer is not found</response>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(CustomerDto), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CustomerDto>> GetCustomer(int id)
     {
         try
@@ -53,8 +53,8 @@ public class CustomerController : ControllerBase
     /// <response code="201">Returns the newly created customer</response>
     /// <response code="400">If the input is invalid</response>
     [HttpPost]
-    [ProducesResponseType(typeof(CustomerDto), 201)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CustomerCreationDto>> CreateCustomer(CustomerCreationDto customerCreation)
     {
         var customer = _mapper.Map<Customer>(customerCreation);
@@ -74,8 +74,8 @@ public class CustomerController : ControllerBase
     /// <response code="204">Customer updated successfully</response>
     /// <response code="404">Customer not found</response>
     [HttpPut("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateCustomer(int id , CustomerUpdateDto customerUpdateDto)
     {
         try

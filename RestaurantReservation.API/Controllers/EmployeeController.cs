@@ -32,8 +32,8 @@ public class EmployeeController : ControllerBase
     /// <response code="200">Returns the requested employee</response>
     /// <response code="404">If the employee is not found</response>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(CustomerDto), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult>GetEmployee(int id)
     {
         try
@@ -55,8 +55,8 @@ public class EmployeeController : ControllerBase
     /// <response code="201">Returns the newly created employee</response>
     /// <response code="400">If the input is invalid</response>
     [HttpPost]
-    [ProducesResponseType(typeof(CustomerDto), 201)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateEmployee(EmployeeCreationDto creationDto)
     {
         var employee = await _employeeRepository.Create(_mapper.Map<Employee>(creationDto));
@@ -69,13 +69,13 @@ public class EmployeeController : ControllerBase
     /// Updates an existing employee's information.
     /// </summary>
     /// <param name="id">The ID of the employee to update.</param>
-    /// <param name="customerUpdateDto">The updated employee information.</param>
+    /// <param name="employeeUpdateDto">The updated employee information.</param>
     /// <returns>No content if the update is successful; NotFound if the employee does not exist.</returns>
     /// <response code="204">employee updated successfully</response>
     /// <response code="404">employee not found</response>
     [HttpPut("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateEmployee(int id, EmployeeUpdateDto employeeUpdateDto)
     {
         try

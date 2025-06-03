@@ -26,7 +26,7 @@ public class JwtTokenGenerator : ITokenGenerator
         Subject = new ClaimsIdentity(new[]
         {
                 new Claim(ClaimTypes.Name, user.FirstName + user.LastName),
-                new Claim("UserId", user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             }),
         Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
         Issuer = _jwtSettings.Issuer,
