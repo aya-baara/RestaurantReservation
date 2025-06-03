@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models;
+using RestaurantReservation.Db.Interface;
+using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
@@ -11,12 +13,12 @@ namespace RestaurantReservation.API.Controllers;
 public class ReservationController : ControllerBase
 {
     private readonly ReservationRepository _reservationRepository;
-    private readonly CustomerRepository _customerRepository;
+    private readonly IRepository<Customer> _customerRepository;
     private readonly OrderItemRepository _orderItemRepository;
     
     private readonly IMapper _mapper;
 
-    public ReservationController(ReservationRepository reservationRepository, IMapper mapper, CustomerRepository customerRepository, OrderItemRepository orderItemRepository)
+    public ReservationController(ReservationRepository reservationRepository, IMapper mapper, IRepository<Customer> customerRepository, OrderItemRepository orderItemRepository)
     {
         _reservationRepository = reservationRepository;
         _mapper = mapper;
@@ -60,7 +62,7 @@ public class ReservationController : ControllerBase
     /// <response code="404">If no orders are found for the specified reservation ID.</response>
 
     [HttpGet("{id}/orders")]
-    [ProducesResponseType(typeof(IEnumerable<OrderWithMenuItemsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(OrderWithItemsResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetOrdersReservation(int id)
     {
@@ -69,12 +71,13 @@ public class ReservationController : ControllerBase
         if (ordersDict == null || !ordersDict.Any())
             return NotFound(new { Message = "No orders found for the specified reservation." });
 
-        var result = ordersDict.Select(kvp => new OrderWithMenuItemsDto
+        var orders = ordersDict.Select(kvp => new OrderWithMenuItemsDto
         {
             OrderId = kvp.Key,
             MenuItems = _mapper.Map<List<MenuItemDto>>(kvp.Value)
         }).ToList();
 
+        var result = new OrderWithItemsResponseDto() { Orders = orders };
         return Ok(result);
     }
 
