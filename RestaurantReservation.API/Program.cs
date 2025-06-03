@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RestaurantReservation.API.Services;
 using RestaurantReservation.Db;
+using RestaurantReservation.Db.Interface;
+using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repository;
 using System.Reflection;
 using System.Text;
@@ -36,9 +38,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<RestaurantReservationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<CustomerRepository>();
+builder.Services.AddScoped<IRepository<Customer>, CustomerRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
-builder.Services.AddScoped<TableRepository>();
+builder.Services.AddScoped<IRepository<Table>,TableRepository>();
 builder.Services.AddScoped<ReservationRepository>();
 builder.Services.AddScoped<OrderItemRepository>();
 builder.Services.AddScoped<OrderRepository>();

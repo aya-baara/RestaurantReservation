@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.Models.Customers;
+using RestaurantReservation.Db.Interface;
 using RestaurantReservation.Db.Models;
-using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
 [Authorize]
@@ -12,10 +12,10 @@ namespace RestaurantReservation.API.Controllers;
 [Route("api/customers")]
 public class CustomerController : ControllerBase
 {
-    private readonly CustomerRepository _customerRepository;
+    private readonly IRepository<Customer> _customerRepository;
     private readonly IMapper _mapper;
 
-    public CustomerController (CustomerRepository customerRepository, IMapper mapper)
+    public CustomerController (IRepository<Customer> customerRepository, IMapper mapper)
     {
         _customerRepository = customerRepository;
         _mapper = mapper;
