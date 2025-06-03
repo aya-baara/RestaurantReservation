@@ -90,7 +90,7 @@ public class ReservationController : ControllerBase
     /// <response code="404">If no menu items are found for the specified reservation ID.</response>
 
     [HttpGet("{id}/menu-items")]
-    [ProducesResponseType(typeof(IEnumerable<MenuItemDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(MenuItemsDtoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetOrderedMenuItemsForReservation(int id)
     {
@@ -98,8 +98,8 @@ public class ReservationController : ControllerBase
 
         if (menuItems == null || !menuItems.Any()) 
                 return NotFound(new { Message = "No menu items found for the specified order." });
-
-        return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(menuItems));
+        var result = new MenuItemsDtoResponse() { MenuItems = (List<MenuItemDto>)_mapper.Map<IEnumerable<MenuItemDto>>(menuItems) };
+        return Ok(result);
     }
 
 }
