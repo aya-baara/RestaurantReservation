@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RestaurantReservation.API.Models.Tokens;
 using RestaurantReservation.API.Services;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Interface;
@@ -26,11 +27,12 @@ builder.Services.AddAuthentication(k =>
         ValidateAudience = false,
         ValidateLifetime = false,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["JWKToekn:key"],
-        ValidAudience = builder.Configuration["JWKToekn:Audience"],
+        ValidIssuer = builder.Configuration["JWTToken:key"],
+        ValidAudience = builder.Configuration["JWTToken:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWTToken"));
 
 builder.Services.AddAuthorization();
 

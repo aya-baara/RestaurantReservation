@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using RestaurantReservation.API.Models.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,17 +9,17 @@ namespace RestaurantReservation.API.Services;
 
 public class JwtTokenGenerator : ITokenGenerator
 {
-    private readonly IConfiguration _configuration;
+    private readonly JwtSettings _jwtSettings;
 
-public JwtTokenGenerator(IConfiguration configuration)
-{
-    _configuration = configuration;
-}
+    public JwtTokenGenerator(IOptions<JwtSettings> options)
+    {
+        _jwtSettings = options.Value;
+    }
 
-public AuthToken GenerateToken(User user)
+    public AuthToken GenerateToken(User user)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.UTF8.GetBytes(_configuration["JWTToken:Key"]);
+    var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
 
     var tokenDescriptor = new SecurityTokenDescriptor
     {
@@ -27,9 +28,9 @@ public AuthToken GenerateToken(User user)
                 new Claim(ClaimTypes.Name, user.FirstName + user.LastName),
                 new Claim("UserId", user.Id.ToString())
             }),
-        Expires = DateTime.UtcNow.AddMinutes(5),
-        Issuer = _configuration["JWTToken:Issuer"],
-        Audience = _configuration["JWTToken:Audience"],
+        Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
+        Issuer = _jwtSettings.Issuer,
+        Audience = _jwtSettings.Audience,
         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
     };
 
@@ -41,16 +42,16 @@ public AuthToken GenerateToken(User user)
 public bool ValidateToken(AuthToken token)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.UTF8.GetBytes(_configuration["JWTToken:Key"]);
+    var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
 
     var validationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = true,
-        ValidIssuer = _configuration["JWTToken:Issuer"],
+        ValidIssuer = _jwtSettings.Issuer,
         ValidateAudience = true,
-        ValidAudience = _configuration["JWTToken:Audience"],
+        ValidAudience = _jwtSettings.Audience,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
