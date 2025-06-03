@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.API.Models.Customers;
 using RestaurantReservation.API.Models.Tables;
+using RestaurantReservation.Db.Interface;
 using RestaurantReservation.Db.Models;
-using RestaurantReservation.Db.Repository;
 
 namespace RestaurantReservation.API.Controllers;
 [Authorize]
@@ -13,10 +12,10 @@ namespace RestaurantReservation.API.Controllers;
 [Route("api/tables")]
 public class TableController : ControllerBase
 {
-    private readonly TableRepository _tableRepository;
+    private readonly IRepository<Table> _tableRepository;
     private readonly IMapper _mapper;
 
-    public TableController(TableRepository tableRepository, IMapper mapper)
+    public TableController(IRepository<Table> tableRepository, IMapper mapper)
     {
         _tableRepository = tableRepository;
         this._mapper = mapper;
@@ -48,12 +47,12 @@ public class TableController : ControllerBase
     /// <summary>
     /// Creates a new table.
     /// </summary>
-    /// <param name="TableCreationDto">The table data to create</param>
+    /// <param name="tableCreationDto">The table data to create</param>
     /// <returns>The newly created table.</returns>
     /// <response code="201">Returns the newly created table</response>
     /// <response code="400">If the input is invalid</response>
     [HttpPost]
-    [ProducesResponseType(typeof(CustomerDto), 201)]
+    [ProducesResponseType(typeof(TableDto), 201)]
     [ProducesResponseType(400)]
     public async Task<ActionResult>CreateTable(TableCreationDto tableCreationDto)
     {
@@ -67,14 +66,14 @@ public class TableController : ControllerBase
     /// Updates an existing table's information.
     /// </summary>
     /// <param name="id">The ID of the table to update.</param>
-    /// <param name="customerUpdateDto">The updated table information.</param>
+    /// <param name="tableUpdateDto">The updated table information.</param>
     /// <returns>No content if the update is successful; NotFound if the table does not exist.</returns>
     /// <response code="204">table updated successfully</response>
     /// <response code="404">table not found</response>
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult> UpdateEmployee(int id, TableUpdateDto tableUpdateDto)
+    public async Task<ActionResult> UpdateTable(int id, TableUpdateDto tableUpdateDto)
     {
         try
         {
@@ -101,7 +100,7 @@ public class TableController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PartiallyUpdateT(int id, [FromBody] JsonPatchDocument<TableUpdateDto> patchDocument)
+    public async Task<IActionResult> PartiallyUpdateTable(int id, [FromBody] JsonPatchDocument<TableUpdateDto> patchDocument)
     {
         if (patchDocument == null)
             return BadRequest();
