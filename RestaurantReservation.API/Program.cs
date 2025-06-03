@@ -89,7 +89,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddSingleton<JwtTokenGenerator>();
+builder.Services.AddSingleton<ITokenGenerator, JwtTokenGenerator>();
 
 
 

@@ -6,9 +6,9 @@ namespace RestaurantReservation.API.Controllers;
 
 public class AuthController : ControllerBase
 {
-    private readonly JwtTokenGenerator _tokenGenerator;
+    private readonly ITokenGenerator _tokenGenerator;
 
-    public AuthController(JwtTokenGenerator tokenGenerator)
+    public AuthController(ITokenGenerator tokenGenerator)
     {
         _tokenGenerator = tokenGenerator;
     }

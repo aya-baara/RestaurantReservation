@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RestaurantReservation.API.Services;
 
-public class JwtTokenGenerator
+public class JwtTokenGenerator : ITokenGenerator
 {
     private readonly IConfiguration _configuration;
 
@@ -15,7 +15,7 @@ public JwtTokenGenerator(IConfiguration configuration)
     _configuration = configuration;
 }
 
-public JWTTokens GenerateToken(User user)
+public AuthToken GenerateToken(User user)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.UTF8.GetBytes(_configuration["JWTToken:Key"]);
@@ -35,10 +35,10 @@ public JWTTokens GenerateToken(User user)
 
     var token = tokenHandler.CreateToken(tokenDescriptor);
 
-    return new JWTTokens { Token = tokenHandler.WriteToken(token) };
+    return new AuthToken { Token = tokenHandler.WriteToken(token) };
 }
 
-public bool ValidateToken(JWTTokens token)
+public bool ValidateToken(AuthToken token)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.UTF8.GetBytes(_configuration["JWTToken:Key"]);
